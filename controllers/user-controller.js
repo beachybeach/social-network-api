@@ -3,7 +3,7 @@ const { User } = require('../models');
 
 const userController = {
   //get all users
-  getAllUser(req, res) {
+  getAllUsers(req, res) {
     User.find({})
       .then(result => res.json(result))
       .catch(err => res.status(400).json(err));
