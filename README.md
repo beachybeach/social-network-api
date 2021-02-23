@@ -1,6 +1,6 @@
 # Social Network API 
 
-## [Walkthrough Video Link](https://youtu.be/gogmt0y3uME)
+## [Walkthrough Video Link](https://youtu.be/r5yXA5Y5SCo)
 
 A mongo db for a social network in which the user can create an account, add and remove friends, post thoughts, update thoughts, and create reactions to others' thoughts.
 
