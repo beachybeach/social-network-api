@@ -66,6 +66,35 @@ const thoughtsController = {
         res.json(result)
       })
       .catch(err => res.status(400).json(err));
+  },
+
+
+
+//reactions
+  createReaction({ params, body }, res) {
+    Thoughts.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $push: { reactions: body } },
+      { new: true, runValidators: true }
+    )
+      .then(results => {
+        if (!results) {
+          res.status(400).json({ message: 'User Not Found' });
+          return;
+        }
+        res.json(results);
+      })
+      .catch(err => res.json(err));
+  },
+
+  removeReaction({ params}, res) {
+    Thoughts.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $pull: { reactions: params.reactionId } },
+      { new: true }
+    )
+    .then(results => res.json(results))
+    .catch(err => res.json(err));
   }
 };
 
