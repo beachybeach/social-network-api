@@ -11,7 +11,7 @@ const thoughtsController = {
 
   //find thought by id
   getThoughtById({ params }, res) {
-    Thoughts.findOne({ _id: params.thoughtsId})
+    Thoughts.findOne({ _id: params.thoughtId})
       .then(result => {
         if (!result) {
           res.status(400).json({ message: 'Thought not found'});
@@ -44,7 +44,7 @@ const thoughtsController = {
   },
 
   updateThought({ params, body}, res) {
-    Thoughts.findOneAndUpdate({ _id: params.thoughts.Id }, body, {new: true, runValidators: true })
+    Thoughts.findOneAndUpdate({ _id: params.thoughtId }, body, {new: true, runValidators: true })
      .then(result => {
         if (!result) {
           res.status(400).json({ message: 'User not found'});
@@ -57,7 +57,7 @@ const thoughtsController = {
     },
 
   deleteThought({ params}, res) {
-    Thoughts.remove({ _id: params.thoughtsId })
+    Thoughts.remove({ _id: params.thoughtId })
     .then(result => {
         if (!result) {
           res.status(400).json({ message: 'User not found'});
@@ -87,14 +87,20 @@ const thoughtsController = {
       .catch(err => res.json(err));
   },
 
-  removeReaction({ params}, res) {
-    Thoughts.findOneAndUpdate(
+  removeReaction({ params }, res) {
+    Thoughts.remove(
       { _id: params.thoughtId },
       { $pull: { reactions: params.reactionId } },
       { new: true }
     )
-    .then(results => res.json(results))
-    .catch(err => res.json(err));
+        .then(results => {
+        if (!results) {
+          res.status(400).json({ message: 'User Not Found' });
+          return;
+        }
+        res.json(results);
+      })
+      .catch(err => res.json(err));
   }
 };
 
